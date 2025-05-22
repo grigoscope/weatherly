@@ -12,7 +12,7 @@ This telegram bot sends weather forecasts as images in Telegram. It uses the Ope
 - 📅 Daily and 5-day forecast images
 - 🔔 Daily subscription with automatic notifications
 - 🗺 Location-based weather
-- Multilingual: English and Russian
+- 🗣️ Multilingual: English and Russian
 
 ## Demo
 
@@ -23,8 +23,8 @@ This telegram bot sends weather forecasts as images in Telegram. It uses the Ope
 weatherly/
 │
 ├── images/
-│   ├── backgrounds/      # Background images (e.g., background_*.png)
-│   └── icons/            # Weather icons (e.g., wind_speed.png, pressure.png)
+│   ├── backgrounds/      # Background images
+│   └── icons/            # Weather icons
 │
 ├── config.py             # Stores API tokens
 ├── request_list.py       # OpenWeatherMap API client
@@ -42,3 +42,5 @@ weatherly/
    ```bash
    pip install -r requirements.txt
    ```
+3. Change data in config.py
+4. Run!
