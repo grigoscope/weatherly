@@ -80,7 +80,9 @@ def message_handler(message):
 
     user = user_context.get(chat_id)
     if not user or "lat" not in user or "lon" not in user:
-        bot.send_message(chat_id, "Please share your location first.")
+        markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+        markup.add("RU🇷🇺", "EN🇬🇧")
+        bot.send_message(message.chat.id, 'Chose your language', reply_markup=markup)
         return
 
     req_list_obj = request_list.Requests(api_key)
@@ -90,28 +92,28 @@ def message_handler(message):
     if text in ["Погода сейчас☀️", "Weather now☀️"]:
         curr_weather = req_list_obj.current_weather(lon, lat, lang)
         img = ImageGenerator(curr_weather, lang=lang).curr_weather_img()
-        bio = BytesIO();
-        img.save(bio, "PNG");
+        bio = BytesIO()
+        img.save(bio, "PNG")
         bio.seek(0)
-        bot.send_photo(chat_id, bio)
+        bot.send_photo(chat_id, bio, caption="Погода сейчас☀️" if lang == 'ru' else 'Forecast for now☀️')
 
     elif text in ["Прогноз на сутки⏳", "Today forecast⏳"]:
         curr_weather = req_list_obj.current_weather(lon, lat, lang)
         forecast = req_list_obj.five_days_forecast(lon, lat, lang)[:10]
         img = ImageGenerator(curr_weather, lang=lang).daily_forecast_img(forecast)
-        bio = BytesIO();
-        img.save(bio, "PNG");
+        bio = BytesIO()
+        img.save(bio, "PNG")
         bio.seek(0)
-        bot.send_photo(chat_id, bio)
+        bot.send_photo(chat_id, bio, caption="Прогноз на сутки⏳" if lang == 'ru' else 'Today forecast⏳')
 
     elif text in ["Прогноз на 5 дней🗓️️", "5 days forecast🗓️️"]:
         curr_weather = req_list_obj.current_weather(lon, lat, lang)
         forecast = req_list_obj.five_days_forecast(lon, lat, lang)[:40]
         img = ImageGenerator(curr_weather, lang=lang).five_days_img(forecast)
-        bio = BytesIO();
-        img.save(bio, "PNG");
+        bio = BytesIO()
+        img.save(bio, "PNG")
         bio.seek(0)
-        bot.send_photo(chat_id, bio)
+        bot.send_photo(chat_id, bio, caption="Прогноз на 5 дней🗓️️" if lang == 'ru' else '5 days forecast🗓️')
 
     elif text in ["Уведомления🔔", "Notifications🔔"]:
         markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)

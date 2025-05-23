@@ -44,17 +44,17 @@ class ImageGenerator:
 
     def __init__(self,
                  current: dict,
-                 bg_dir: str = "images/backgrounds/",
-                 icon_dir: str = "images/icons/",
+                 bg_dir: str = "/home/grigoscope/weatherly/weatherly/images/backgrounds/",
+                 icon_dir: str = "/home/grigoscope/weatherly/weatherly/images/icons/",
                  lang: str = "ru"):
         self.current = current
         self.bg_dir = bg_dir.rstrip("/") + "/"
         self.icon_dir = icon_dir.rstrip("/") + "/"
         self.lang = lang if lang in ("en", "ru") else "ru"
         self.font_big = ImageFont.truetype("calibri.ttf", 120)
-        self.font_mid = ImageFont.truetype("calibri.ttf", 75)
-        self.font_small = ImageFont.truetype("calibri.ttf", 55)
-        self.font_center = ImageFont.truetype("calibri.ttf", 150)
+        self.font_mid = ImageFont.truetype("calibri.ttf", 65)
+        self.font_small = ImageFont.truetype("calibri.ttf", 45)
+        self.font_center = ImageFont.truetype("calibri.ttf", 120)
 
     def curr_weather_img(self) -> Image.Image:
         code = self.current["icon"][-1]
@@ -100,7 +100,7 @@ class ImageGenerator:
             "wind_speed": f"{self.current['wind_speed']} {'м/с' if self.lang == 'ru' else 'm/s'}",
             "wind_dir": t["dirs"].get(self.current["wind_dir"], self.current["wind_dir"])
         }
-        ICON_SIZE = 48;
+        ICON_SIZE = 48
         PAD = 20
         y0 = H - len(keys) * (ICON_SIZE + PAD) - 50
         for k in keys:
@@ -121,9 +121,10 @@ class ImageGenerator:
         W, H = img.size
 
         x, y = 50, 50
+        avg_temp = int(mean(e["temp"] for e in forecast))
         draw.text((x, y), self.current["name"], font=self.font_mid, fill="white")
         y += draw.textbbox((0, 0), self.current["name"], font=self.font_mid)[3] + 10
-        draw.text((x, y), f"{self.current['temp']}°C", font=self.font_big, fill="white")
+        draw.text((x, y), f"{avg_temp}°C",       font=self.font_big, fill="white")
 
         lbl = self.TRANSLATIONS[self.lang]["today"]
         bx0, by0, bx1, by1 = draw.textbbox((0, 0), lbl, font=self.font_big)
